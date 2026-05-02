@@ -6,10 +6,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error('GEMINI_API_KEY is not set');
+    if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
+      return res.status(500).json({ 
+        error: 'GEMINI_API_KEY 未配置。' 
+      });
+    }
 
     const { question, knowledgePoint } = req.body;
-    const ai = new GoogleGenAI({ apiKey });
+    const ai = new GoogleGenAI(apiKey);
     const model = ai.getGenerativeModel({ 
       model: "gemini-1.5-flash",
       generationConfig: {
