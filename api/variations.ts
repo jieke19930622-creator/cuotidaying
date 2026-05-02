@@ -13,8 +13,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const { question, knowledgePoint } = req.body;
-    const ai = new GoogleGenAI(apiKey);
-    const model = ai.getGenerativeModel({ 
+    const genAI = new GoogleGenAI(apiKey);
+    const model = genAI.getGenerativeModel({ 
       model: "gemini-1.5-flash",
       generationConfig: {
         responseMimeType: "application/json",

@@ -8,13 +8,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
       return res.status(500).json({ 
-        error: 'GEMINI_API_KEY 未配置。请在 Vercel 或本地代码中设置正确的 API Key。' 
+        error: 'GEMINI_API_KEY 未在 Vercel 环境变量中配置。' 
       });
     }
 
     const { image } = req.body;
-    const ai = new GoogleGenAI(apiKey);
-    const model = ai.getGenerativeModel({ 
+    const genAI = new GoogleGenAI(apiKey);
+    const model = genAI.getGenerativeModel({ 
       model: "gemini-1.5-flash",
       generationConfig: {
         responseMimeType: "application/json",
